@@ -1,0 +1,5 @@
+data/List/List.g4
+data/Turma/Turma.g4
+data/Turma/Turma.txt
+data/Turma/Turmainput.png
+data/Turma/Turmaoutput.png

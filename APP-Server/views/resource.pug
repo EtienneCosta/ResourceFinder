@@ -1,0 +1,183 @@
+extends dashboardLayout
+block content
+
+    title Startmin - Bootstrap Admin Theme
+    #wrapper
+      nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+        .navbar-header
+          a.navbar-brand(href='http://localhost:8002/dashboard/'+userid) Resource Finder
+        button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+          span.sr-only Toggle navigation
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        ul.nav.navbar-right.navbar-top-links
+          li.dropdown
+            a.dropdown-toggle(data-toggle='dropdown' href='#')
+              i#username.fa.fa-user.fa-fw
+              =username
+              b.caret
+            ul.dropdown-menu.dropdown-user
+              li
+                a(href='#')
+                  i.fa.fa-user.fa-fw
+                  |  User Profile
+              li.divider
+              li
+                a(href='http://localhost:8002/users/logout')
+                  i.fa.fa-sign-out.fa-fw
+                  |  Logout
+        .navbar-default.sidebar(role='navigation')
+          .sidebar-nav.navbar-collapse
+            ul#side-menu.nav
+              li.sidebar-search
+                .input-group.custom-search-form
+                  input.form-control(type='text' placeholder='Search...')
+                  span.input-group-btn
+                    button.btn.btn-primary(type='button')
+                      i.fa.fa-search
+              li
+                a(href='http://localhost:8002/dashboard/'+userid)
+                  i.fa.fa-dashboard.fa-fw
+                  |  Dashboard
+              li
+                a(href='http://localhost:8002/dashboard/stats?token='+token)
+                  i.fa.fa-table.fa-fw
+                  |  System Stats
+              li
+                a(href='http://localhost:8002/dashboard/registerResource')
+                  i.fa.fa-edit.fa-fw
+                  |  Upload Resources
+      #page-wrapper
+        .container-fluid
+          .row
+            .col-lg-12
+              h1.page-header= resource.title
+          .container
+            .panel-group
+              .panel.panel-primary
+                .panel-heading Resource
+                .panel-body
+                  b
+                    p= "Title         : "+resource.title 
+                    p= "SubTitle      : "+resource.subtitle 
+                    p= "Type          : "+resource.type 
+                    p= "Creation Date : "+resource.creationdate 
+                    p= "Register Date : "+resource.registerdate 
+                    p= "Visibility    : "+resource.visibility 
+                    p= "Author        : "+resource.author
+                    p= "Downloads     : "+resource.downloads
+                    p#likesnr= "Likes         : "+resource.likes.length
+                    p= "Description   : "+resource.description   
+                .btn-group(role='group' aria-label='Basic example')
+                  if(username=="admin"||resource.authorId==userid)
+                      button.btn.btn-success.download-resource(type='button' data-id=resource._id formaction='http://localhost:8002/dashboard/resources/download/'+resource._id ) Download
+                      button.btn.btn-danger.delete-resource(type='button' data-id=resource._id data-user=username name=resource._id ) Delete
+                      button.btn.btn-warning(type='button' data-toggle='modal' data-target='#editModal' ) Edit
+                      #editModal.modal.fade.w3-animate-opacity(role='dialog')
+                        .modal-dialog.modal-lg
+                          .modal-content
+                            .modal-header
+                              button.close(type='button' data-dismiss='modal') &times;
+                              h4.modal-title Edit Resource
+                            .modal-body
+                              form#editForm(role='form'  action='/dashboard/resources/' method='POST' )
+                                .form-group
+                                  label ID:
+                                  input#id.form-control(required  name='_id' readonly value=resource._id )
+                                .form-group
+                                  label Title:
+                                  input#title.form-control(placeholder='Insert your title ...' required name='title'  value=resource.title )
+                                .form-group
+                                  label Subtitle:
+                                  input#subtitle.form-control(placeholder='Insert your subtitle ...' required name='subtitle' value=resource.subtitle)
+                                .form-group
+                                  label Type:
+                                  input#type.form-control( required readonly name='type'  value=resource.type)
+                                .form-group
+                                  label Creation Date:
+                                  input#date.form-control( required readonly name='creationdate' value=resource.creationdate)
+                                .form-group
+                                  label(style='padding-right:5px') Visibility:
+                                  label.radio-inline
+                                    input#optionsRadiosInline1(type='radio' name='visibility' value='public' checked='')
+                                    |  On
+                                  label.radio-inline
+                                    input#optionsRadiosInline2(type='radio' name='visibility' value='private')
+                                    | Off
+                                .form-group
+                                  label Description: 
+                                  textarea#description.form-control(rows='3' maxlength='34' required name='description' value=resource.description)
+                                .btn-group(role='group' aria-label='Basic example')
+                                  button.btn.btn-outline.btn-success(type='submit'  onclick='editfunction()') Edit 
+                                  button.btn.btn-outline.btn-danger(type='reset') Reset
+                            .modal-footer
+                              button.btn.btn-danger(type='button' data-dismiss='modal') Close
+                      if(resource.likes.includes(userid)) 
+                        input#like.toggle-state(type='checkbox' checked data-toggle='toggle' data-id=resource._id data-user=userid data-on="Dislike" data-off="Like")
+                      else 
+                        input#like.toggle-state(type='checkbox' data-toggle='toggle' data-id=resource._id data-user=userid data-on="Dislike" data-off="Like")                   
+          
+                  else
+                      button.btn.btn-success.download-resource(type='button' data-id=resource._id formaction='http://localhost:8002/dashboard/resources/download/'+resource._id ) Download
+                      if(resource.likes.includes(userid)) 
+                        input#like.toggle-state(type='checkbox' checked data-toggle='toggle' data-id=resource._id data-user=userid data-on="Dislike" data-off="Like")
+                      else 
+                        input#like.toggle-state(type='checkbox' data-toggle='toggle' data-id=resource._id data-user=userid data-on="Dislike" data-off="Like")                   
+
+          
+          .container
+            .be-comment-block
+              h1.comments-title= "Comments ("+resource.comments.length+")"
+              each c in resource.comments.reverse()
+                .be-comment
+                  .be-img-comment
+                    img.be-ava-comment(src='/images/hacker.svg' alt='AVATAR')
+                  .be-comment-content
+                    span.be-comment-name
+                      b=c.author
+                    span.be-comment-time
+                      i.fa.fa-clock-o=c.date
+                    if username == c.author
+                      button.btn.btn-success.btn-sm.edit-comment(type='button' data-toggle='modal' data-target='#edit-review') Edit
+                      #edit-review.modal.fade(tabindex='-1' role='dialog' aria-labelledby='label' aria-hidden='true')
+                        .modal-dialog
+                          .modal-content
+                            .modal-header
+                              h4#label.modal-title Edit comment
+                              button.close(type='button' data-dismiss='modal' aria-hidden='true') ×
+                            .modal-body
+                              form.msg_form
+                                .mb-3
+                                  label.col-form-label(for='message-text') Message:
+                                  textarea#message-text.form-control.message #{c.comment}
+                                  hr
+                                  button.btn.btn-default(type='button' data-dismiss='modal') Close
+                                  button.btn.btn-primary.edit-review(type='button' data-dismiss='modal' data-id= resource._id comment-id=c._id) Submit
+                      button.btn.btn-danger.btn-sm.delete-comment(href='#', data-id= resource._id comment-id= c._id) Delete
+
+                    p.be-comment-text=c.comment
+
+                
+
+
+
+            
+                   
+              form.form-block
+                .row
+                  div
+                    .form-group
+                      textarea.form-input.message(style='width:1000px' placeholder='Insert Your Comment Here ...')
+                button.btn.btn-success.pull-right.add-review(type='button' data-user=username data-id=resource._id) Comment
+  
+    script(src='/javascripts/jquery.min.js')
+    script(src='/javascripts/bootstrap.min.js')
+    script(src='/javascripts/metisMenu.min.js')
+    script(src='/javascripts/startmin.js')
+    script(src='https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js')
+    script(src='/javascripts/likes.js')
+    script(src='/javascripts/editresource.js')
+    script(src='/javascripts/delete.js')
+    script(src='/javascripts/comment.js')
+    script(src='/javascripts/download.js')

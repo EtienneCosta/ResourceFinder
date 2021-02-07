@@ -1,0 +1,6 @@
+data/alunos.c
+data/arrays.c
+data/ler_str.c
+data/parseint.c
+data/scan1int.c
+

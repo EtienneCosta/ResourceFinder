@@ -1,0 +1,22 @@
+extends homepageLayout
+block content
+  
+  // Background & animion & navbar & title
+  .container-fluid
+    // Background animtion
+    .background
+      .cube
+      .cube
+      .cube
+      .cube
+      .cube
+    // header
+    header
+      // title & content
+      section.header-content
+        h1 Welcome to Resource Finder
+        p  A place to find, make available and download all kinds of resources.
+        button(onclick="location.href='http://localhost:8002/users/login'") Login
+        button(onclick="location.href='http://localhost:8002/users/register'") Register
+
+         

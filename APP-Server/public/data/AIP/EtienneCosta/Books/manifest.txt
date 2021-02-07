@@ -1,0 +1,3 @@
+data/Alloy/SoftwareAbstractions.pdf
+data/Prolog/prologsearch.pdf
+data/SyntacticRecognizers/linguagens.pdf

@@ -1,0 +1,208 @@
+extends dashboardLayout
+
+block content
+  #wrapper
+    nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .navbar-header
+        a.navbar-brand(href='http://localhost:8002/dashboard/'+user._id style='pointer-events: none') Resource Finder
+      button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      ul.nav.navbar-right.navbar-top-links
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown' href='#')
+            i.fa.fa-user.fa-fw
+            =user.username 
+            b.caret
+          ul.dropdown-menu.dropdown-user
+            li
+              a(href='#')
+                i.fa.fa-user.fa-fw
+                |  User Profile
+            li.divider
+            li
+              a(href='http://localhost:8002/users/logout')
+                i.fa.fa-sign-out.fa-fw
+                |  Logout
+      .navbar-default.sidebar(role='navigation')
+        .sidebar-nav.navbar-collapse
+          ul#side-menu.nav
+            li.sidebar-search
+              .input-group.custom-search-form
+                input.form-control(type='text' placeholder='Search...')
+                span.input-group-btn
+                  button.btn.btn-primary(type='button')
+                    i.fa.fa-search
+            li
+              a.active(href='http://localhost:8002/dashboard/'+user.username style='pointer-events: none')
+                i.fa.fa-dashboard.fa-fw
+                |  Dashboard
+            li
+              a(href='http://localhost:8002/dashboard/stats?token='+token)
+                i.fa.fa-table.fa-fw
+                |  System Stats
+            li
+              a(href='http://localhost:8002/dashboard/registerResource')
+                i.fa.fa-edit.fa-fw
+                |  Upload Resources
+    #page-wrapper
+      .container-fluid
+        .row
+          .col-lg-12
+            h1.page-header Dashboard
+        .row
+          .col-lg-3.col-md-6
+            .panel.panel-primary
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-bug.fa-5x
+                  .col-xs-9.text-right
+                    .huge=user.reports.length
+                    div  Reports
+              a(href='#' style='pointer-events: none')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-green
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-archive.fa-5x
+                  .col-xs-9.text-right
+                    .huge=myresources.length
+                    div My Resources!
+              a(href='http://localhost:8002/dashboard/resources/'+user._id)
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+          .col-lg-3.col-md-6
+            .panel.panel-yellow
+              .panel-heading
+                .row
+                  .col-xs-3
+                    i.fa.fa-book.fa-fw.fa-5x
+                  .col-xs-9.text-right
+                    .huge=library.length
+                    div Library
+              a(href='http://localhost:8002/dashboard/resources')
+                .panel-footer
+                  span.pull-left View Details
+                  span.pull-right
+                    i.fa.fa-arrow-circle-right
+                  .clearfix
+        .row
+          .col-lg-8
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-clock-o.fa-fw
+                |  Timeline
+              .panel-body
+                ul.timeline
+                  if news.length==0
+                    li
+                      .timeline-panel
+                        .timeline-heading
+                          p
+                            small.text-muted
+                              i.fa.fa-comments
+                              |  Posted by Admin
+                        .timeline-body
+                          p
+                            |Unfortunately no resource has yet been made available
+                         
+                  else
+                    - var flag = true ;
+                    each n in news
+
+                        if(flag==true)
+
+                            li
+                              .timeline-badge.warning
+                                i.fa.fa-comments
+                              .timeline-panel
+                                .timeline-heading
+                                  a(href='http://localhost:8002/dashboard/resources?id='+n.resource)
+                                    h4.timeline-title=n.news
+                                  p
+                                    small.text-muted
+                                      i.fa.fa-comments=" Posted by "+n.author+"    on     "+n.date
+                                      |
+                                .timeline-body
+                                  p
+                                    b=n.description
+                            -flag=false
+                        else
+                            li.timeline-inverted
+                                .timeline-badge.warning
+                                  i.fa.fa-comments
+                                .timeline-panel
+                                  .timeline-heading
+                                    a(href='http://localhost:8002/dashboard/resources?id='+n.resource)
+                                      h4.timeline-title=n.news
+                                    p
+                                      small.text-muted
+                                        i.fa.fa-comments=" Posted by "+n.author+"    on     "+n.date
+
+                                        |
+                                  .timeline-body
+                                    p
+                                      b=n.description
+                            -flag=true
+          .col-lg-4
+            .panel.panel-default
+              .panel-heading
+                i.fa.fa-bell.fa-fw
+                |  Notifications Panel
+              .panel-body
+                .list-group
+                  a.list-group-item()
+                    i.fa.fa-bug
+                    |  New Report
+                    span.pull-right.text-muted.small
+                      em 4 minutes ago
+              
+            .chat-panel.panel.panel-default
+              .panel-heading
+                i.fa.fa-comments.fa-fw
+                |                                     Reports
+              .panel-body
+                ul.chat
+                   if user.reports.length==0  
+                     li.left.clearfix
+                     span.chat-img.pull-left
+                       img.img-circle(src='../images/admin.png' style='width:10%;border-radius: 50%;' alt='User Avatar')
+                     .chat-body.clearfix
+                       .header
+                         strong.primary-font Admin 
+                       p
+                         | no reports were made available...
+                   else
+                    each r in user.reports.reverse()
+
+                      span.chat-img.pull-left
+                       img.img-circle(src='../images/admin.png' style='width:10%;border-radius: 50%;' alt='User Avatar')
+                      .chat-body.clearfix
+                        .header
+                          small.text-muted
+                            i.fa.fa-clock-o="Admin  on "+r.date  
+                                                   
+                        p
+                          b
+                            i=r.content
+                      li.left.clearfix
+               
+  script(src='../javascripts/jquery.min.js')
+  script(src='../javascripts/bootstrap.min.js')
+  script(src='../javascripts/metisMenu.min.js')
+  script(src='../javascripts/raphael.min.js')
+  script(src='../javascripts/morris.min.js')
+  script(src='../javascripts/morris-data.js')
+  script(src='../javascripts/startmin.js')

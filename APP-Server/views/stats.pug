@@ -1,0 +1,134 @@
+extends dashboardLayout
+block content
+  
+   title ResourceFinder - System Stats                
+   #wrapper
+     // Navigation
+     nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+       .navbar-header
+         a.navbar-brand(href='http://localhost:8002/dashboard/'+userid) Resource Finder
+       button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+         span.sr-only Toggle navigation
+         span.icon-bar
+         span.icon-bar
+         span.icon-bar
+       ul.nav.navbar-right.navbar-top-links
+         li.dropdown
+           a.dropdown-toggle(data-toggle='dropdown' href='#')
+             i.fa.fa-user.fa-fw
+             =username 
+             b.caret
+           ul.dropdown-menu.dropdown-user
+             li
+               a(href='#')
+                 i.fa.fa-user.fa-fw
+                 |  User Profile
+             li.divider
+             li
+               a(href='http://localhost:8002/users/logout')
+                 i.fa.fa-sign-out.fa-fw
+                 |  Logout
+       // /.navbar-top-links
+       .navbar-default.sidebar(role='navigation')
+         .sidebar-nav.navbar-collapse
+           ul#side-menu.nav
+             li.sidebar-search
+               .input-group.custom-search-form
+                 input.form-control(type='text' placeholder='Search...')
+                 span.input-group-btn
+                   button.btn.btn-primary(type='button')
+                     i.fa.fa-search
+               // /input-group
+             li
+               a(href='http://localhost:8002/dashboard/'+userid)
+                 i.fa.fa-dashboard.fa-fw
+                 |  Dashboard
+             li
+               a(href='http://localhost:8002/dashboard/stats' style='pointer-events: none')
+                 i.fa.fa-table.fa-fw
+                 |  System Stats
+             li
+               a(href='http://localhost:8002/dashboard/registerResource')
+                 i.fa.fa-edit.fa-fw
+                 |  Upload Resources
+         // /.sidebar-collapse
+       // /.navbar-static-side
+     #page-wrapper
+       .container-fluid
+         .row
+           .col-lg-12
+             h1.page-header System Stats
+           // /.col-lg-12
+         // /.row
+         .row
+           .col-lg-12
+             .panel.panel-default
+               .panel-heading
+                 b User Information 
+               // /.panel-heading
+               .panel-body
+                 .table-responsive
+                   table#dataTables-example.table.table-striped.table-bordered.table-hover
+                      thead
+                        tr
+                         th Username
+                         th Email
+                         th Register Date
+                         th Uploads
+                         th Level
+                      tbody
+                        each u in users
+                         - var uploads=0;
+                           each r in resources 
+                            if(r.author==u.username)
+                              - uploads++
+                         tr.odd.gradeX
+                           td=u.username
+                           td=u.email 
+                           td=u.register
+                           td.center= uploads
+                           td.center=u.level 
+
+    
+       .row
+         .col-sm-3
+           .hero-widget.well.well-sm
+             .icon
+               i.glyphicon.glyphicon-user
+             .text
+               span.value=users.length
+               label.text-muted Users
+         .col-sm-3
+           .hero-widget.well.well-sm
+             .icon
+               i.glyphicon.glyphicon-star
+             .text
+               span.value=likes 
+               label.text-muted Likes
+         .col-sm-3
+           .hero-widget.well.well-sm
+             .icon
+               i.glyphicon.glyphicon-tags
+             .text
+               span.value=resources.length
+               label.text-muted Uploads
+         .col-sm-3
+           .hero-widget.well.well-sm
+             .icon
+               i.glyphicon.glyphicon-cog
+             .text
+               span.value=downloads 
+               label.text-muted Downloads
+    
+   script(src='/javascripts/jquery.min.js')
+   script(src='/javascripts/bootstrap.min.js')
+   script(src='/javascripts/metisMenu.min.js')
+   script(src='/javascripts/dataTables/jquery.dataTables.min.js')
+   script(src='/javascripts/dataTables/dataTables.bootstrap.min.js')
+   script(src='/javascripts/startmin.js')
+   script.
+     $(document).ready(function() {
+     $('#dataTables-example').DataTable({
+     responsive: true
+     });
+     });

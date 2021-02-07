@@ -1,0 +1,9 @@
+data/BTree.hs
+data/Cp.hs
+data/demos.hs
+data/Exp.hs
+data/FTree.hs
+data/google.hs
+data/List.hs
+data/LTree.hs
+data/Nat.hs

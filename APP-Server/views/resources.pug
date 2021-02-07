@@ -1,0 +1,78 @@
+extends dashboardLayout
+block content
+  
+  title ResourceFinder - All Kinds Of Resources 
+
+  #wrapper
+    nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+      .navbar-header
+        a.navbar-brand(href='http://localhost:8002/dashboard/'+user._id) Resource Finder
+      button.navbar-toggle(type='button' data-toggle='collapse' data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      ul.nav.navbar-right.navbar-top-links
+        li.dropdown
+          a.dropdown-toggle(data-toggle='dropdown' href='#')
+            i.fa.fa-user.fa-fw
+            =user.username
+            b.caret
+          ul.dropdown-menu.dropdown-user
+            li
+              a(href='#')
+                i.fa.fa-user.fa-fw
+                |  User Profile
+            li.divider
+            li
+              a(href='http://localhost:8002/users/logout')
+                i.fa.fa-sign-out.fa-fw
+                |  Logout
+      .navbar-default.sidebar(role='navigation')
+        .sidebar-nav.navbar-collapse
+          ul#side-menu.nav
+            li.sidebar-search
+              .input-group.custom-search-form
+                input#filter.form-control(type='text' onkeyup='search()' placeholder='Search...')
+                span.input-group-btn
+                  button.btn.btn-primary(type='button' disabled)
+                    i.fa.fa-search
+
+
+            li
+              a(href='http://localhost:8002/dashboard/'+user._id)
+                i.fa.fa-dashboard.fa-fw
+                |  Dashboard
+            li
+              a(href='http://localhost:8002/dashboard/stats?token='+token)
+                i.fa.fa-table.fa-fw
+                |  System Stats
+            li
+              a(href='http://localhost:8002/dashboard/registerResource')
+                i.fa.fa-edit.fa-fw
+                |  Upload Resources
+    #page-wrapper
+      .container-fluid
+        .row
+          .col-lg-12
+            h1.page-header Resources
+        .container
+          .row#results           
+            each r in resources
+              if(user.username=="admin"||r.authorId==user._id||r.visibility=="public")
+                .col-md-3
+                  .panel.panel-primary
+                    .panel-heading=r.title+" :: "+r.type
+                    .panel-body
+                      div
+                        a(href='http://localhost:8002/dashboard/resources?id='+r._id target='_blank')
+                          img.img-responsive(src='/images/folder.png' style='width:30%' alt='Folder image')
+                    .panel-footer=r.description 
+                
+              
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+  script(src='/javascripts/jquery.min.js')
+  script(src='/javascripts/bootstrap.min.js')
+  script(src='/javascripts/metisMenu.min.js')
+  script(src='/javascripts/startmin.js')
+  script(src='/javascripts/filter.js')

@@ -1,0 +1,54 @@
+extends layout
+block content 
+
+  title Login          
+  .main
+    .cube
+    .cube
+    .cube
+    .cube
+    .cube
+    section.sign-in
+      .container
+        .signin-content
+          .signin-image
+            figure
+              img(src='/images/signin-image.jpg' alt='sing up image')
+            a.signup-image-link(href='/users/register') Create an account
+            a.signup-image-link(href='/') HomePage
+
+          .signin-form
+            h2.form-title Sign in
+            form#login-form.register-form(action='/users/login' method='POST')
+              .form-group
+                label(for='username')
+                  i.zmdi.zmdi-account.material-icons-name
+                input#your_name(type='text' name='username' placeholder='Your Name' required)
+              .form-group
+                label(for='password')
+                  i.zmdi.zmdi-lock
+                input#your_pass(type='password' name='password' placeholder='Password' required)
+              .form-group
+                input#remember-me.agree-term(type='checkbox' onclick='showPassword()'  name='remember-me' )
+                label.label-agree-term(for='remember-me')
+                  span
+                    span
+                  | Show Password
+              .form-group.form-button
+                input#signin.form-submit(type='submit'  value='Log in')
+            .social-login
+              span.social-label Or login with
+              ul.socials
+                li
+                  a(href='#')
+                    i.display-flex-center.zmdi.zmdi-facebook
+                li
+                  a(href='#')
+                    i.display-flex-center.zmdi.zmdi-twitter
+                li
+                  a(href='#')
+                    i.display-flex-center.zmdi.zmdi-google
+
+  script(src='/vendor/jquery/jquery.min.js')
+  script(src='/javascripts/showpassword.js')
+

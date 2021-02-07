@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pr>
+
+    <metadados>
+
+        <keyname> PLC_PRI2021 </keyname>
+
+        <title> Document Type Definition </title>
+
+        <bdate>19 Outubro 2020</bdate>
+
+        <edate>26 Outubro 2020</edate>
+
+        <supervisor name="José Carlos Ramalho">
+
+            <email> jcr@di.uminho.pt</email>
+
+            <href link="http://www4.di.uminho.pt/~jcr/"> WebPage </href>
+
+        </supervisor>
+
+    </metadados>
+
+
+    <workteam>
+
+        <person identifier="a76089">
+            <name> Etienne da Silva Filipe Amado da Costa </name>
+
+            <email> a76089@alunos.uminho.pt </email>
+
+        </person>
+
+    </workteam>
+
+
+    <abstract>
+
+        <paragraph> Este trabalho prático consiste na implementação de um <italic> Document Type
+                Definition</italic>
+            <bold>(dtd)</bold> com o propósito de validar um ficheiro <italic> Extensible Markup
+                Language</italic><bold>(xml)</bold> contendo a informação de um <underline>
+                <bold>Project Record</bold>
+            </underline> , sendo que a base para estruturar o projecto foi extraída da seguinte
+            página <href
+                link="http://www4.di.uminho.pt/~jcr/PROJS/micei2002/guilherme/Project%20Record.htm"
+            />. </paragraph>
+
+
+
+    </abstract>
+
+
+    <deliverables>
+
+        <deliverable link="/Users/etiennecosta/Desktop/GitHub/Mestrado/PRI2020/TP2/pr.dtd"> Project
+            Record (DTD version) </deliverable>
+
+        <deliverable link="/Users/etiennecosta/Desktop/GitHub/Mestrado/PRI2020/TP2/pr.xml"> Project
+            Record (XML version) </deliverable>
+
+
+    </deliverables>
+
+
+</pr>

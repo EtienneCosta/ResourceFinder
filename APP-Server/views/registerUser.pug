@@ -1,0 +1,47 @@
+extends layout
+block content 
+
+  title Register
+  // Font Icon
+  .main
+    .cube
+    .cube
+    .cube
+    .cube
+    .cube
+    // Sign up form
+    section.signup
+      .container
+        .signup-content
+          .signup-form
+            h2.form-title Sign up
+            form#register-form.register-form(action='/users/register' method='POST')
+              .form-group
+                label(for='username')
+                  i.zmdi.zmdi-account.material-icons-name
+                input#name(type='text' name='username' placeholder='Your Name' required)
+              .form-group
+                label(for='email')
+                  i.zmdi.zmdi-email
+                input#email(type='email' name='email' placeholder='Your Email' required)
+              .form-group
+                label(for='password')
+                  i.zmdi.zmdi-lock
+                input#pass(type='password' name='password' placeholder='Password' required)
+              .form-group
+                label(for='repassword')
+                  i.zmdi.zmdi-lock-outline
+                input#re_pass(type='password' name='repassword' placeholder='Repeat your password' required)
+              
+                  
+              .form-group.form-button
+                input#signup.form-submit(type='submit' name='signup' value='Register')
+          .signup-image
+            figure
+              img(src='/images/signup-image.jpg' alt='sing up image')
+            a.signup-image-link(href='/users/login') I am already member
+            a.signup-image-link(href='/') HomePage
+
+  // JS
+  script(src='/vendor/jquery/jquery.min.js')
+  script(src='/javascripts/confirmpassword.js')
